@@ -6,7 +6,7 @@ from utils.oauth import Oauth
 app = FastAPI(
     title="Google Sheet Updater",
     docs_url="/readme",
-    redoc_url=None,
+    # redoc_url=None,
     description="""A FastAPI application that serves APIs which update a google sheet with blood pressure related data.
 
 A family member has been tasked to monitor their blood pressure, pulse and weight daily. 

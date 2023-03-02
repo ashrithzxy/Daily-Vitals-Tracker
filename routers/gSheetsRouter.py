@@ -2,13 +2,14 @@ from fastapi import APIRouter
 from .api import GoogleSheetsApi
 from pydantic import BaseModel
 from utils.oauth import Oauth
+from typing import List
 
 sheetsrouter = APIRouter(prefix="/sheets")
 
 class Data(BaseModel):
-    bloodPressure: list[list[int]]
-    wbb: list[int]
-    wab: list[int]
+    bloodPressure: List[List[int]]
+    wbb: List[int]
+    wab: List[int]
 
 @sheetsrouter.put("")
 async def update(Data: Data):

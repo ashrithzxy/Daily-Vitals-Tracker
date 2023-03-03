@@ -11,9 +11,9 @@ class GoogleSheetsApi:
         # print(f'googleApiKey: {self.googleApiKey}')
         # print(f'service_account_oauth_token: {self.service_account_oauth_token}')
 
-    async def getSpreadSheetValues(self):
+    async def getSpreadSheetValues(self,monthYearString):
 
-        range = "oct22!A:F"
+        range = monthYearString+"!A:F"
 
         url = f"https://sheets.googleapis.com/v4/spreadsheets/{self.spreadSheetId}/values/{range}?key={self.googleApiKey}"
 
@@ -25,8 +25,8 @@ class GoogleSheetsApi:
         async with httpx.AsyncClient() as client:
             response = httpx.get(url, headers=headers)
         
-        # print(response)
         spreadsheetValues = response.json()
+        # print(f'get spreadsheet valuee: {spreadsheetValues}')
         return spreadsheetValues
 
     async def getNextCellMap(self, spreadSheetValues):
@@ -38,14 +38,20 @@ class GoogleSheetsApi:
         # print(f"start: {nextStart}, end: {nextEnd}")
         return nextStart, nextEnd
 
-        
+    async def getMonthYearString(self):
+        today = dt.today().date()
+        monthYearString = today.strftime("%b%y")
+        # print(f"monthYearString is {monthYearString}")
+        return monthYearString
 
     async def updateSheet(self, data):
         data = await self.generateData(data)
-        spreadsheetValues = await self.getSpreadSheetValues()
+        monthYearString = await self.getMonthYearString()
+        spreadsheetValues = await self.getSpreadSheetValues(monthYearString)
         nextStart, nextEnd = await self.getNextCellMap(spreadsheetValues)
         
-        range = f"Oct22!{nextStart}%3A{nextEnd}"
+        # range = f"Oct22!{nextStart}%3A{nextEnd}"
+        range = f"{monthYearString}!{nextStart}%3A{nextEnd}"
 
         url = f"https://sheets.googleapis.com/v4/spreadsheets/{self.spreadSheetId}/values/{range}?&key={self.googleApiKey}"
 
@@ -56,7 +62,8 @@ class GoogleSheetsApi:
 
         payload = json.dumps({
                                 "majorDimension": "ROWS",
-                                "range": f"Oct22!{nextStart}:{nextEnd}",
+                                # "range": f"Oct22!{nextStart}:{nextEnd}",
+                                "range" : f"{monthYearString}!{nextStart}:{nextEnd}",
                                 "values": data
                                 })
         headers = {
@@ -113,4 +120,5 @@ class GoogleSheetsApi:
         avgDia = round(totalDia/3,2)
         avgPul = round(totalPul/3,2)
         dataList.append([rowId,avgWbb,avgWab,avgSys,avgDia,avgPul])
+        # print("data list in addLastRow() is: ",dataList)
         return dataList

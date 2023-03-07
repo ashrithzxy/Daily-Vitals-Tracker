@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from routers import gSheetsRouter
 from fastapi.middleware.cors import CORSMiddleware
 from utils.oauth import Oauth
@@ -31,8 +34,18 @@ app.add_middleware(
 
 app.include_router(gSheetsRouter.sheetsrouter)
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 @app.on_event("startup")
 async def setOauth():
     gSheetsOauth = Oauth()
     await gSheetsOauth.setAccessToken()
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("home.html",{"request":request})
+
+@app.post("/formdata")
+async def formdata(bpSys1: str = Form()):
+    return {"username": bpSys1}

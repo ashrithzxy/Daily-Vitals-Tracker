@@ -47,5 +47,7 @@ async def home(request: Request):
     return templates.TemplateResponse("home.html",{"request":request})
 
 @app.post("/formdata")
-async def formdata(bpSys1: str = Form()):
-    return {"username": bpSys1}
+async def formdata(request: Request):
+    request_json = await request.json()
+    print("request_json: ",request_json)
+    return 200

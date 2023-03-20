@@ -10,7 +10,7 @@
 
 <p>Enter BP & Weight readings for today:</p>
 
-<form>
+<form id="vitals" action="/formdata" method="post">
   <fieldset class="health">
     <legend>Blood Pressure:</legend>
     <br>
@@ -102,9 +102,9 @@
   </fieldset>
   
   <!-- <input type="submit" value="Submit"> -->
-  <button class="button button2">SUBMIT</button>
+  <button class="button button2" type="submit">SUBMIT</button>
 
 </form>
+<script src="/static/formSubmit.js"></script> 
 </body>
 </html>
-

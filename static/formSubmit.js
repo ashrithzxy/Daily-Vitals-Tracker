@@ -17,15 +17,15 @@ sampleForm.addEventListener("submit", async (e) => {
      * Take the URL from the form's `action` attribute.
      */
     let url = form.action;
-    console.log("URL from form action is: ",url);
+    // console.log("URL from form action is: ",url);
     try {
       /**
        * Takes all the form fields and make the field values
        * available through a `FormData` instance.
        */
       let formData = new FormData(form);
-      console.log("formData is: ",formData);
-      console.log("formData type is: ",typeof(formData));
+      // console.log("formData is: ",formData);
+      // console.log("formData type is: ",typeof(formData));
   
       /**
        * The `postFormFieldsAsJson()` function in the next step.
@@ -49,10 +49,40 @@ sampleForm.addEventListener("submit", async (e) => {
   async function postFormFieldsAsJson({ url, formData }) {
     //Create an object from the form data entries
     let formDataObject = Object.fromEntries(formData.entries());
-    console.log("POST data is: ",formDataObject);
-    console.log("formDataObject type: ",typeof(formDataObject));
+    // console.log("POST data is: ",formDataObject);
+    // console.log("formDataObject type: ",typeof(formDataObject));
     // Format the plain form data as JSON
-    let formDataJsonString = JSON.stringify(formDataObject);
+    let returnData = {
+      "bp":[
+      [
+        formDataObject['systolic-reading-1'],
+        formDataObject['diastolic-reading-1'],
+        formDataObject['pulse-reading-1']
+      ],
+      [
+        formDataObject['systolic-reading-2'],
+        formDataObject['diastolic-reading-2'],
+        formDataObject['pulse-reading-2']
+      ],
+      [
+        formDataObject['systolic-reading-3'],
+        formDataObject['diastolic-reading-3'],
+        formDataObject['pulse-reading-3']
+      ]
+    ],
+    "wbb":[
+      formDataObject['wbb-1'],
+      formDataObject['wbb-2'],
+      formDataObject['wbb-3']
+    ],
+    "wab":[
+      formDataObject['wab-1'],
+      formDataObject['wab-2'],
+      formDataObject['wab-3']
+    ]
+    };
+    console.log("returnData is: ",returnData)
+    let formDataJsonString = JSON.stringify(returnData);
     //Set the fetch options (headers, body)
     let fetchOptions = {
       //HTTP method set to POST.

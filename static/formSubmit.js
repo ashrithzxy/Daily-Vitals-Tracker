@@ -49,7 +49,7 @@ sampleForm.addEventListener("submit", async (e) => {
   async function postFormFieldsAsJson({ url, formData }) {
     //Create an object from the form data entries
     let formDataObject = Object.fromEntries(formData.entries());
-    console.log("POST DATA IS: ",formDataObject);
+    console.log("POST data is: ",formDataObject);
     console.log("formDataObject type: ",typeof(formDataObject));
     // Format the plain form data as JSON
     let formDataJsonString = JSON.stringify(formDataObject);

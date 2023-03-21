@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from routers import gSheetsRouter
 from fastapi.middleware.cors import CORSMiddleware
 from utils.oauth import Oauth
+from utils.utils import Utils
 
 app = FastAPI(
     title="Google Sheet Updater",
@@ -41,6 +42,8 @@ templates = Jinja2Templates(directory="templates")
 async def setOauth():
     gSheetsOauth = Oauth()
     await gSheetsOauth.setAccessToken()
+    utilsObj = Utils()
+    await utilsObj.getSheetIdForCurrentMonth()
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):

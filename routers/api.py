@@ -1,6 +1,7 @@
 import os, json
 from datetime import datetime as dt
 import httpx
+from utils.utils import Utils
 
 class GoogleSheetsApi:
     def __init__(self):
@@ -10,6 +11,7 @@ class GoogleSheetsApi:
         # print(f'spreadSheetId: {self.spreadSheetId}')
         # print(f'googleApiKey: {self.googleApiKey}')
         # print(f'service_account_oauth_token: {self.service_account_oauth_token}')
+        self.currentMonthSheetId = os.environ.get("currentMonthSheetId",None)
 
     async def getSpreadSheetValues(self,monthYearString):
 
@@ -38,19 +40,20 @@ class GoogleSheetsApi:
         # print(f"start: {nextStart}, end: {nextEnd}")
         return nextStart, nextEnd
 
-    async def getMonthYearString(self):
-        today = dt.today().date()
-        monthYearString = today.strftime("%b%y")
-        # print(f"monthYearString is {monthYearString}")
-        return monthYearString
+    # async def getMonthYearString(self):
+    #     today = dt.today().date()
+    #     monthYearString = today.strftime("%b%y")
+    #     # print(f"monthYearString is {monthYearString}")
+    #     return monthYearString
 
     async def updateSheet(self, data):
+        utilsObj = Utils()
+        monthYearString = await utilsObj.getMonthYearString()
         data = await self.generateData(data)
-        monthYearString = await self.getMonthYearString()
         spreadsheetValues = await self.getSpreadSheetValues(monthYearString)
         nextStart, nextEnd = await self.getNextCellMap(spreadsheetValues)
-        
-        # range = f"Oct22!{nextStart}%3A{nextEnd}"
+        updateCellBorders = await self.updateBorders(nextStart,nextEnd)
+
         range = f"{monthYearString}!{nextStart}%3A{nextEnd}"
 
         url = f"https://sheets.googleapis.com/v4/spreadsheets/{self.spreadSheetId}/values/{range}?&key={self.googleApiKey}"
@@ -62,7 +65,6 @@ class GoogleSheetsApi:
 
         payload = json.dumps({
                                 "majorDimension": "ROWS",
-                                # "range": f"Oct22!{nextStart}:{nextEnd}",
                                 "range" : f"{monthYearString}!{nextStart}:{nextEnd}",
                                 "values": data
                                 })
@@ -122,3 +124,68 @@ class GoogleSheetsApi:
         dataList.append([rowId,avgWbb,avgWab,avgSys,avgDia,avgPul])
         # print("data list in addLastRow() is: ",dataList)
         return dataList
+    
+    async def updateBorders(self, nextStart, nextEnd):
+        startRowIndex = int(nextStart[1:])-1
+        endRowIndex = int(nextEnd[1:])
+        print("Border indexes: ",startRowIndex,endRowIndex)
+        url = f"https://sheets.googleapis.com/v4/spreadsheets/{self.spreadSheetId}:batchUpdate"
+
+        borderColorStyle = {
+                                "style": "SOLID",
+                                "width": 1,
+                                "colorStyle": {
+                                    "rgbColor": {
+                                    "red":0,
+                                    "blue":0,
+                                    "green":0
+                                    }
+                                }
+                                }
+        borderData = {
+                        "requests": [
+                                        {
+                                            "mergeCells": {
+                                                            "range": {
+                                                            "sheetId": self.currentMonthSheetId,
+                                                            "startRowIndex": startRowIndex,
+                                                            "endRowIndex": endRowIndex-1,
+                                                            "startColumnIndex": 0,
+                                                            "endColumnIndex": 1
+                                                            },
+                                                            "mergeType": "MERGE_COLUMNS"
+                                                            }
+                                        },
+                                        {
+                                            "updateBorders": {
+                                                                "range": {
+                                                                "sheetId": self.currentMonthSheetId,
+                                                                "startRowIndex": startRowIndex,
+                                                                "endRowIndex": endRowIndex,
+                                                                "startColumnIndex": 0,
+                                                                "endColumnIndex": 6
+                                                                },
+                                                            "top": borderColorStyle,
+                                                            "bottom": borderColorStyle,
+                                                            "left": borderColorStyle,
+                                                            "right": borderColorStyle,
+                                                            "innerHorizontal": borderColorStyle,
+                                                            "innerVertical": borderColorStyle 
+                                                            }
+                                        }
+                                    ]
+                    }
+
+        payload = json.dumps(borderData)
+        headers = {
+        'Authorization': f'Bearer {self.service_account_oauth_token}',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        }
+
+        async with httpx.AsyncClient() as client:
+            query = await client.post(url, headers=headers, data=payload)
+            print("border update query is: ",query.text)
+        
+        response = query.json()
+        return response

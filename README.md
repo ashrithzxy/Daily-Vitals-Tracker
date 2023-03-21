@@ -1,4 +1,4 @@
-# Google Sheets Vitals Tracker
+# Daily Vitals Tracker
 
 A FastAPI application that serves APIs that update a google sheet with blood pressure-related data.
 

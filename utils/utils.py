@@ -34,6 +34,7 @@ class Utils:
                     break
             print(f"sheetId is: {sheetId}")
             os.environ['currentMonthSheetId'] = str(sheetId)
+            print(f"sheetId is: ",sheetId)
             return sheetId
     
     async def getMonthYearString(self):

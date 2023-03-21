@@ -11,7 +11,7 @@ class GoogleSheetsApi:
         # print(f'spreadSheetId: {self.spreadSheetId}')
         # print(f'googleApiKey: {self.googleApiKey}')
         # print(f'service_account_oauth_token: {self.service_account_oauth_token}')
-        self.currentMonthSheetId = os.environ.get("currentMonthSheetId",None)
+        self.currentMonthSheetId = int(os.environ.get("currentMonthSheetId",0))
 
     async def getSpreadSheetValues(self,monthYearString):
 

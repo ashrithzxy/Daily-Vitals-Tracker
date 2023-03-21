@@ -8,9 +8,9 @@ from utils.oauth import Oauth
 from utils.utils import Utils
 
 app = FastAPI(
-    title="Google Sheet Updater",
-    docs_url="/readme",
-    # redoc_url=None,
+    title="Daily Vitals Tracker",
+    docs_url=None,
+    redoc_url=None,
     description="""A FastAPI application that serves APIs which update a google sheet with blood pressure related data.
 
 A family member has been tasked to monitor their blood pressure, pulse and weight daily. 
@@ -48,9 +48,3 @@ async def setOauth():
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("home.html",{"request":request})
-
-@app.post("/formdata")
-async def formdata(request: Request):
-    request_json = await request.json()
-    print("request_json: ",request_json)
-    return 200

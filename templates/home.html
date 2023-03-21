@@ -10,7 +10,7 @@
 
 <p>Enter BP & Weight readings for today:</p>
 
-<form id="vitals" action="/formdata" method="post">
+<form id="vitals" action="/sheets" method="put">
   <fieldset class="health">
     <legend>Blood Pressure:</legend>
     <br>
@@ -18,51 +18,51 @@
     <div class="bp-div" id="bp-div-1">
       <div class="bp-readings-div" id="systolic">
         <label class="bp-label"for="Sys">Systolic:</label><br>
-        <input type="number" class="bp-input" id="systolic-reading-1" name="systolic-reading-1"><br>
+        <input type="number" class="bp-input" id="systolic-reading-1" name="systolic-reading-1" value="120"><br>
       </div>
 
       <div class="bp-readings-div" id="diastolic">
         <label class="bp-label"for="Dia">Diastolic:</label><br>
-        <input type="number" class="bp-input" id="diastolic-reading-1" name="diastolic-reading-1"><br>
+        <input type="number" class="bp-input" id="diastolic-reading-1" name="diastolic-reading-1" value="80"><br>
       </div>
 
       <div class="bp-readings-div" id="pulse">
         <label class="bp-label"class="bp-label" for="Pul">Pulse:</label><br>
-        <input type="number" class="bp-input" id="pulse-reading-1" name="pulse-reading-1"><br><br><br>
+        <input type="number" class="bp-input" id="pulse-reading-1" name="pulse-reading-1" value="75"><br><br><br>
       </div>
     </div>
 
     <div class="bp-div" id="bp-div-2">
         <div class="bp-readings-div" id="systolic">
           <label class="bp-label"for="Sys">Systolic:</label><br>
-          <input type="number" class="bp-input" id="systolic-reading-2" name="systolic-reading-2"><br>
+          <input type="number" class="bp-input" id="systolic-reading-2" name="systolic-reading-2" value="121"><br>
         </div>
 
         <div class="bp-readings-div" id="diastolic">
           <label class="bp-label"for="Dia">Diastolic:</label><br>
-          <input type="number" class="bp-input" id="diastolic-reading-2" name="diastolic-reading-2"><br>
+          <input type="number" class="bp-input" id="diastolic-reading-2" name="diastolic-reading-2" value="81"><br>
         </div>
 
         <div class="bp-readings-div" id="pulse">
           <label class="bp-label"for="Pul">Pulse:</label><br>
-          <input type="number" class="bp-input" id="pulse-reading-2" name="pulse-reading-2"><br><br><br>
+          <input type="number" class="bp-input" id="pulse-reading-2" name="pulse-reading-2" value="76"><br><br><br>
         </div>
     </div>
 
     <div class="bp-div" id="bp-div-3">
       <div class="bp-readings-div" id="systolic">
         <label class="bp-label"for="Sys">Systolic:</label><br>
-        <input type="number" class="bp-input" id="systolic-reading-3" name="systolic-reading-3"><br>
+        <input type="number" class="bp-input" id="systolic-reading-3" name="systolic-reading-3" value="119"><br>
       </div>
 
       <div class="bp-readings-div" id="diastolic">
         <label class="bp-label"for="Dia">Diastolic:</label><br>
-        <input type="number" class="bp-input" id="diastolic-reading-3" name="diastolic-reading-3"><br>
+        <input type="number" class="bp-input" id="diastolic-reading-3" name="diastolic-reading-3" value="79"><br>
       </div>
 
       <div class="bp-readings-div" id="pulse">
         <label class="bp-label"for="Pul">Pulse:</label><br>
-        <input type="number" class="bp-input" id="pulse-reading-3" name="pulse-reading-3"><br><br><br>
+        <input type="number" class="bp-input" id="pulse-reading-3" name="pulse-reading-3" value="74"><br><br><br>
       </div>
     </div>
   </div>
@@ -72,15 +72,15 @@
     <legend>Weight <b>Before</b> Breakfast:</legend>
     <div class="wbb-div">
       <p>1.</p>
-      <input type="number"id="wbb-1" name="wbb-1" value="Reading 1">
+      <input type="number"id="wbb-1" name="wbb-1" value="57">
     </div>
     <div class="wbb-div">
       <p>2.</p>
-      <input type="number"id="wbb-2" name="wbb-2" value="Reading 2">
+      <input type="number"id="wbb-2" name="wbb-2" value="57">
     </div>
     <div class="wbb-div">
       <p>3.</p>
-      <input type="number"id="wbb-3" name="wbb-3" value="Reading 3">
+      <input type="number"id="wbb-3" name="wbb-3" value="57">
     </div>
     
   </fieldset>
@@ -89,15 +89,15 @@
     <legend>Weight <b>After</b> Breakfast:</legend>
     <div class="wab-div">
       <p>1.</p>
-      <input type="number"id="wab-1" name="wab-1" value="Reading 1"><br><br>
+      <input type="number"id="wab-1" name="wab-1" value="58"><br><br>
     </div>
     <div class="wab-div">
       <p>2.</p>
-      <input type="number"id="wab-2" name="wab-2" value="Reading 2"><br><br>
+      <input type="number"id="wab-2" name="wab-2" value="58"><br><br>
     </div>
     <div class="wab-div">
       <p>3.</p>
-      <input type="number"id="wab-3" name="wab-3" value="Reading 3"><br>
+      <input type="number"id="wab-3" name="wab-3" value="58"><br>
     </div>
   </fieldset>
   

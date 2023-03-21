@@ -53,7 +53,7 @@ sampleForm.addEventListener("submit", async (e) => {
     // console.log("formDataObject type: ",typeof(formDataObject));
     // Format the plain form data as JSON
     let returnData = {
-      "bp":[
+      "bloodPressure":[
       [
         formDataObject['systolic-reading-1'],
         formDataObject['diastolic-reading-1'],
@@ -86,7 +86,7 @@ sampleForm.addEventListener("submit", async (e) => {
     //Set the fetch options (headers, body)
     let fetchOptions = {
       //HTTP method set to POST.
-      method: "POST",
+      method: "PUT",
       //Set the headers that specify you're sending a JSON body request and accepting JSON response
       headers: {
         "Content-Type": "application/json",
